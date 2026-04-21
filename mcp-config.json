@@ -1,0 +1,87 @@
+# MCP Server Konfiguration — UrlaubsPlaner
+# Datei: .claude/mcp-config.json (oder in VS Code Settings einfügen)
+#
+# Alle MCP-Server sind kostenlos nutzbar.
+# Einrichten: In VS Code → Settings → Claude Code → MCP Servers
+
+{
+  "mcpServers": {
+
+    "supabase": {
+      "comment": "Supabase MCP — direkte DB-Abfragen, Tabellen verwalten, RLS debuggen",
+      "comment2": "Offizieller Supabase MCP Server",
+      "type": "http",
+      "url": "https://mcp.supabase.com/sse",
+      "comment3": "Beim ersten Verbinden: OAuth mit deinem Supabase-Account autorisieren",
+      "tools": [
+        "query",
+        "list_tables",
+        "describe_table",
+        "run_migration",
+        "get_logs"
+      ]
+    },
+
+    "github": {
+      "comment": "GitHub MCP — Issues erstellen, PRs verwalten, Repos einsehen",
+      "comment2": "Nützlich für den Deploy-Agent und Code-Reviews",
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+
+    "playwright": {
+      "comment": "Playwright MCP — Browser-Automatisierung für E2E Tests",
+      "comment2": "Wird vom Test-Agent genutzt",
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp"]
+    },
+
+    "filesystem": {
+      "comment": "Filesystem MCP — Projektdateien lesen/schreiben",
+      "comment2": "Für Agenten die Dateien außerhalb des aktuellen Kontexts benötigen",
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-filesystem",
+        "/path/to/urlaubstracker"
+      ]
+    }
+
+  }
+}
+
+# ─── EINRICHTUNGSANLEITUNG ─────────────────────────────────────────────────────
+#
+# 1. SUPABASE MCP (wichtigster für dieses Projekt):
+#    → In VS Code: Cmd+Shift+P → "Claude Code: Add MCP Server"
+#    → Type: http
+#    → URL: https://mcp.supabase.com/sse
+#    → Name: supabase
+#    → Beim ersten Aufruf öffnet sich OAuth → mit Supabase-Account einloggen
+#    → Testen: "Zeige mir alle Tabellen in meinem Supabase-Projekt"
+#
+# 2. PLAYWRIGHT MCP:
+#    → npm install -g @playwright/mcp
+#    → npx playwright install chromium
+#    → In Claude Code: stdio MCP mit obigem Befehl eintragen
+#
+# 3. GITHUB MCP (optional, für CI/CD):
+#    → GitHub Personal Access Token erstellen (Settings → Developer Settings)
+#    → In .env: GITHUB_TOKEN=ghp_...
+#
+# ─── WARUM KEIN NEON MCP? ─────────────────────────────────────────────────────
+#
+# Wir wechseln von Neon zu Supabase, daher entfällt der Neon MCP.
+# Der Supabase MCP bietet mehr Features (Auth, Storage, RLS-Debugging).
+#
+# ─── EMPFOHLENE MCP REIHENFOLGE BEIM SETUP ────────────────────────────────────
+#
+# 1. Supabase MCP verbinden
+# 2. Supabase-Projekt erstellen (supabase.com → New Project)
+# 3. Mit MCP: "Erstelle die Tabellen aus CLAUDE.md"
+# 4. Mit MCP: "Aktiviere RLS und erstelle Policies"
+# 5. TypeScript-Typen generieren
