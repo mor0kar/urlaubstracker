@@ -91,6 +91,7 @@ export function berechneKontostatus(
     verbleibendeTage: effektivesGesamttage - genommeneTage,
     verfallenerÜbertrag,
     nochNutzbareÜbertragTage,
+    übertragFristAbgelaufen,
     übertragWarnung,
   };
 }

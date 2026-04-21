@@ -28,9 +28,10 @@ export interface Urlaubskontostatus {
   genommeneTage:           number;
   beantragteTage:          number;   // immer 0, bleibt für Typkompatibilität
   verbleibendeTage:        number;
-  verfallenerÜbertrag:     number;
+  verfallenerÜbertrag:      number;
   nochNutzbareÜbertragTage: number;
-  übertragWarnung:         'bald-verfallend' | 'verfallen' | null;
+  übertragFristAbgelaufen:  boolean;
+  übertragWarnung:          'bald-verfallend' | 'verfallen' | null;
 }
 
 // Urlaubstyp-Konstanten

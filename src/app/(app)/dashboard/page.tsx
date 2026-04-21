@@ -83,22 +83,26 @@ function UrlaubskontoKarte({ konto, eintraege }: UrlaubskontoKarteProps) {
     Math.round((status.genommeneTage / status.basisAnspruch) * 100),
   );
 
-  // Übertrag-Badge: immer anzeigen
+  // Übertrag-Badge: nur anzeigen wenn noch relevant
   const übertragBadge = (() => {
-    if (status.uebertragVorjahr === 0) {
-      return (
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-slate-500">
-          Kein Übertrag
-        </span>
-      );
-    }
-    if (status.verfallenerÜbertrag > 0) {
+    // Kein Übertrag vorhanden → nichts anzeigen
+    if (status.uebertragVorjahr === 0) return null;
+
+    // Nach dem 1. April: Übertrag teilweise verfallen
+    if (status.übertragFristAbgelaufen && status.verfallenerÜbertrag > 0) {
       return (
         <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400">
           {status.verfallenerÜbertrag} {status.verfallenerÜbertrag === 1 ? 'Übertragstag' : 'Übertragstage'} verfallen
         </span>
       );
     }
+
+    // Nach dem 1. April: Übertrag vollständig verbraucht → nichts anzeigen
+    if (status.übertragFristAbgelaufen && status.verfallenerÜbertrag === 0) {
+      return null;
+    }
+
+    // Vor dem 1. April: aktiver Übertrag
     return (
       <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
         +{status.uebertragVorjahr} {status.uebertragVorjahr === 1 ? 'Übertragstag' : 'Übertragstage'}
@@ -106,11 +110,12 @@ function UrlaubskontoKarte({ konto, eintraege }: UrlaubskontoKarteProps) {
     );
   })();
 
-  // Übertrag-Stat: verbleibende nutzbare Übertragstage
+  // Übertrag-Stat: nur vor dem 1. April oder bei Verfall relevant
   const übertragStatWert = (() => {
     if (status.uebertragVorjahr === 0) return '—';
+    if (status.übertragFristAbgelaufen && status.verfallenerÜbertrag === 0) return '—';
     if (status.verfallenerÜbertrag > 0) return '0';
-    return `+${status.uebertragVorjahr - status.verfallenerÜbertrag}`;
+    return `+${status.uebertragVorjahr}`;
   })();
 
   return (
