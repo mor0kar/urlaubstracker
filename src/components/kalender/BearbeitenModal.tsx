@@ -9,6 +9,8 @@ interface BearbeitenModalProps {
   onSchließen: () => void;
   // Feiertage als einfache Map datum→name für Frontend-Berechnung
   feiertage: Record<string, string>;
+  // Wenn true: Wochenenden zählen als Arbeitstage
+  wochenendeZählt: boolean;
 }
 
 /**
@@ -27,6 +29,7 @@ function berechneArbeitstageClient(
   von: string,
   bis: string,
   feiertage: Record<string, string>,
+  wochenendeZählt: boolean,
 ): number {
   if (!von || !bis) return 0;
   const vonDatum = new Date(von + 'T00:00:00');
@@ -40,7 +43,8 @@ function berechneArbeitstageClient(
     const datumStr = lokalDatumStr(aktuell);
     const istWE = tag === 0 || tag === 6;
     const istFeiertag = datumStr in feiertage;
-    if (!istWE && !istFeiertag) anzahl++;
+    // Feiertage immer ausschließen; Wochenenden nur wenn wochenendeZählt = false
+    if (!istFeiertag && (wochenendeZählt || !istWE)) anzahl++;
     aktuell.setDate(aktuell.getDate() + 1);
   }
   return anzahl;
@@ -50,6 +54,7 @@ export default function BearbeitenModal({
   eintrag,
   onSchließen,
   feiertage,
+  wochenendeZählt,
 }: BearbeitenModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -65,7 +70,7 @@ export default function BearbeitenModal({
   const [lädt, setLädt] = useState(false);
 
   // Client-seitige Arbeitstage-Berechnung für Vorschau
-  const arbeitstage = halberTag ? 0.5 : berechneArbeitstageClient(von, bis, feiertage);
+  const arbeitstage = halberTag ? 0.5 : berechneArbeitstageClient(von, bis, feiertage, wochenendeZählt);
 
   // Dialog öffnen wenn montiert
   useEffect(() => {

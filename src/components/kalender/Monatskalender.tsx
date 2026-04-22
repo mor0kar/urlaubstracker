@@ -19,6 +19,8 @@ interface MonatskalenderProps {
   feiertageMap: Record<string, string>;
   // Urlaubseinträge für diesen Monat
   eintraege: Urlaubseintrag[];
+  // Wenn true: Wochenenden zählen als Arbeitstage und werden nicht als 'wochenende' markiert
+  wochenendeZählt: boolean;
   onUrlaubEintragen: (datum: Date) => void;
   onBearbeiten?: (eintrag: Urlaubseintrag) => void;
 }
@@ -39,23 +41,25 @@ function bestimmeTagTyp(
   datum: Date,
   feiertageMap: Record<string, string>,
   eintraege: Urlaubseintrag[],
+  wochenendeZählt: boolean,
 ): { tagTyp: TagTyp; feiertagName?: string; eintrag?: Urlaubseintrag } {
   const datumStr = lokalDatumStr(datum);
   const wochentag = datum.getDay();
   const istWE = wochentag === 0 || wochentag === 6;
 
-  // Wochenende und Feiertage zuerst prüfen — sie zählen niemals als Urlaubstage,
-  // auch wenn sie innerhalb eines Urlaubsblocks liegen (Büro ist sowieso geschlossen).
-  if (istWE) {
-    return { tagTyp: 'wochenende' };
-  }
-
+  // Feiertage immer zuerst prüfen — unabhängig von der Wochenende-Einstellung
   const feiertagName = feiertageMap[datumStr];
   if (feiertagName) {
     return { tagTyp: 'feiertag', feiertagName };
   }
 
-  // Erst jetzt Urlaubseintrag prüfen — nur für echte Arbeitstage
+  // Wochenende: nur als solches markieren wenn wochenendeZählt = false
+  // Bei wochenendeZählt = true werden Wochenenden wie normale Arbeitstage behandelt
+  if (istWE && !wochenendeZählt) {
+    return { tagTyp: 'wochenende' };
+  }
+
+  // Urlaubseintrag prüfen — für Arbeitstage (inkl. Wochenende wenn wochenendeZählt)
   const eintrag = eintraege.find(
     (e) => e.von_datum <= datumStr && e.bis_datum >= datumStr,
   );
@@ -75,6 +79,7 @@ export default function Monatskalender({
   monat,
   feiertageMap,
   eintraege,
+  wochenendeZählt,
   onUrlaubEintragen,
   onBearbeiten,
 }: MonatskalenderProps) {
@@ -133,6 +138,7 @@ export default function Monatskalender({
             datum,
             feiertageMap,
             eintraege,
+            wochenendeZählt,
           );
           return (
             <KalenderZelle

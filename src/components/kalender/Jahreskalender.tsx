@@ -12,12 +12,15 @@ interface JahreskalenderProps {
   feiertageMap: Record<string, string>;
   // Alle Urlaubseinträge für das Jahr
   eintraege: Urlaubseintrag[];
+  // Wenn true: Wochenenden zählen als Arbeitstage (Schicht-/Wochenendbetrieb)
+  wochenendeZählt: boolean;
 }
 
 export default function Jahreskalender({
   jahr,
   feiertageMap,
   eintraege,
+  wochenendeZählt,
 }: JahreskalenderProps) {
   // State für Neu-Anlegen-Modal
   const [modalDatum, setModalDatum] = useState<Date | null>(null);
@@ -67,6 +70,7 @@ export default function Jahreskalender({
                 monat={monat}
                 feiertageMap={feiertageMap}
                 eintraege={monatsEintraege}
+                wochenendeZählt={wochenendeZählt}
                 onUrlaubEintragen={handleUrlaubEintragen}
                 onBearbeiten={handleBearbeitenÖffnen}
               />
@@ -95,6 +99,7 @@ export default function Jahreskalender({
           vonDatum={modalDatum.toISOString().slice(0, 10)}
           onSchließen={handleModalSchließen}
           feiertage={feiertageMap}
+          wochenendeZählt={wochenendeZählt}
         />
       )}
 
@@ -104,6 +109,7 @@ export default function Jahreskalender({
           eintrag={bearbeitenEintrag}
           onSchließen={handleBearbeitenSchließen}
           feiertage={feiertageMap}
+          wochenendeZählt={wochenendeZählt}
         />
       )}
     </>

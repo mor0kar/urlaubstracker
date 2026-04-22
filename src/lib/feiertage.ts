@@ -43,20 +43,30 @@ export function istWochenende(datum: Date): boolean {
 }
 
 /**
- * Prüft ob ein Datum ein Arbeitstag ist (kein Wochenende und kein Feiertag).
+ * Prüft ob ein Datum ein Arbeitstag ist.
+ * Wenn wochenendeZählt = false (Standard): Wochenenden und Feiertage gelten nicht als Arbeitstage.
+ * Wenn wochenendeZählt = true: Nur Feiertage gelten nicht als Arbeitstage — Wochenenden zählen mit.
  */
-export function istArbeitstag(datum: Date, feiertage: Feiertag[]): boolean {
-  return !istWochenende(datum) && !istFeiertag(datum, feiertage);
+export function istArbeitstag(
+  datum: Date,
+  feiertage: Feiertag[],
+  wochenendeZählt: boolean = false,
+): boolean {
+  if (istFeiertag(datum, feiertage)) return false;
+  if (!wochenendeZählt && istWochenende(datum)) return false;
+  return true;
 }
 
 /**
  * Zählt Arbeitstage zwischen zwei Daten (beide Grenzen inklusiv).
- * Feiertage und Wochenenden werden herausgerechnet.
+ * Wenn wochenendeZählt = false (Standard): Feiertage und Wochenenden werden herausgerechnet.
+ * Wenn wochenendeZählt = true: Nur Feiertage werden herausgerechnet, Wochenenden zählen als Arbeitstage.
  */
 export function zähleArbeitstage(
   von: Date,
   bis: Date,
   feiertage: Feiertag[],
+  wochenendeZählt: boolean = false,
 ): number {
   let anzahl = 0;
   const aktuell = new Date(von);
@@ -66,7 +76,7 @@ export function zähleArbeitstage(
   endDatum.setHours(0, 0, 0, 0);
 
   while (aktuell <= endDatum) {
-    if (istArbeitstag(aktuell, feiertage)) {
+    if (istArbeitstag(aktuell, feiertage, wochenendeZählt)) {
       anzahl++;
     }
     aktuell.setDate(aktuell.getDate() + 1);

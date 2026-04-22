@@ -60,14 +60,15 @@ export async function urlaubAnlegen(
       return { fehler: 'Das Von-Datum muss vor dem Bis-Datum liegen.' };
     }
 
-    // Bundesland des Users laden für korrekte Feiertagsberechnung
+    // Bundesland und Wochenende-Einstellung des Users laden
     const { data: einstellungen } = await supabase
       .from('settings')
-      .select('bundesland')
+      .select('bundesland, wochenende_zaehlt')
       .eq('user_id', user.id)
       .single();
 
     const bundesland = einstellungen?.bundesland ?? 'NW';
+    const wochenendeZählt = einstellungen?.wochenende_zaehlt ?? false;
     const jahr = new Date(von_datum).getFullYear();
 
     // Feiertage serverseitig berechnen
@@ -79,11 +80,12 @@ export async function urlaubAnlegen(
       feiertage.push(...getFeiertage(bundesland, bisJahr));
     }
 
-    // Arbeitstage berechnen (Wochenenden + Feiertage herausrechnen)
+    // Arbeitstage berechnen (Wochenende-Verhalten laut Einstellung)
     arbeitstage = zähleArbeitstage(
       new Date(von_datum),
       new Date(bis_datum),
       feiertage,
+      wochenendeZählt,
     );
 
     if (arbeitstage === 0) {
@@ -211,14 +213,15 @@ export async function urlaubBearbeiten(
       return { fehler: 'Das Von-Datum muss vor dem Bis-Datum liegen.' };
     }
 
-    // Bundesland des Users laden für korrekte Feiertagsberechnung
+    // Bundesland und Wochenende-Einstellung des Users laden
     const { data: einstellungen } = await supabase
       .from('settings')
-      .select('bundesland')
+      .select('bundesland, wochenende_zaehlt')
       .eq('user_id', user.id)
       .single();
 
     const bundesland = einstellungen?.bundesland ?? 'NW';
+    const wochenendeZählt = einstellungen?.wochenende_zaehlt ?? false;
     const jahr = new Date(von_datum).getFullYear();
 
     // Feiertage serverseitig berechnen
@@ -230,11 +233,12 @@ export async function urlaubBearbeiten(
       feiertage.push(...getFeiertage(bundesland, bisJahr));
     }
 
-    // Arbeitstage berechnen (Wochenenden + Feiertage herausrechnen)
+    // Arbeitstage berechnen (Wochenende-Verhalten laut Einstellung)
     arbeitstage = zähleArbeitstage(
       new Date(von_datum),
       new Date(bis_datum),
       feiertage,
+      wochenendeZählt,
     );
 
     if (arbeitstage === 0) {

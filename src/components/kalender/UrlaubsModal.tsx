@@ -8,6 +8,8 @@ interface UrlaubsModalProps {
   onSchließen: () => void;
   // Feiertage als einfache Map datum→name für Frontend-Berechnung
   feiertage: Record<string, string>;
+  // Wenn true: Wochenenden zählen als Arbeitstage
+  wochenendeZählt: boolean;
 }
 
 /**
@@ -26,6 +28,7 @@ function berechneArbeitstageClient(
   von: string,
   bis: string,
   feiertage: Record<string, string>,
+  wochenendeZählt: boolean,
 ): number {
   if (!von || !bis) return 0;
   const vonDatum = new Date(von + 'T00:00:00');
@@ -39,7 +42,8 @@ function berechneArbeitstageClient(
     const datumStr = lokalDatumStr(aktuell);
     const istWE = tag === 0 || tag === 6;
     const istFeiertag = datumStr in feiertage;
-    if (!istWE && !istFeiertag) anzahl++;
+    // Feiertage immer ausschließen; Wochenenden nur wenn wochenendeZählt = false
+    if (!istFeiertag && (wochenendeZählt || !istWE)) anzahl++;
     aktuell.setDate(aktuell.getDate() + 1);
   }
   return anzahl;
@@ -49,6 +53,7 @@ export default function UrlaubsModal({
   vonDatum,
   onSchließen,
   feiertage,
+  wochenendeZählt,
 }: UrlaubsModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [von, setVon] = useState(vonDatum ?? '');
@@ -59,7 +64,7 @@ export default function UrlaubsModal({
   const [lädt, setLädt] = useState(false);
 
   // Arbeitstage-Berechnung: bei Halber Tag immer 0,5
-  const arbeitstage = halberTag ? 0.5 : berechneArbeitstageClient(von, bis, feiertage);
+  const arbeitstage = halberTag ? 0.5 : berechneArbeitstageClient(von, bis, feiertage, wochenendeZählt);
 
   // Dialog öffnen wenn montiert
   useEffect(() => {

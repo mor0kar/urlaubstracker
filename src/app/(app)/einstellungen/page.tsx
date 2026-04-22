@@ -52,6 +52,9 @@ export default async function EinstellungenSeite() {
             aktuelleUrlaubstage={
               aktuelleSettings?.urlaubstage_pro_jahr ?? 30
             }
+            aktuellesWochenendeZählt={
+              aktuelleSettings?.wochenende_zaehlt ?? false
+            }
           />
         </div>
       </div>

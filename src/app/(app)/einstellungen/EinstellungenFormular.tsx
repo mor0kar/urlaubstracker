@@ -8,6 +8,7 @@ interface EinstellungenFormularProps {
   bundeslaender: typeof import('@/types').BUNDESLAENDER;
   aktuellesBundesland: BundeslandCode;
   aktuelleUrlaubstage: number;
+  aktuellesWochenendeZählt: boolean;
 }
 
 interface Zustand {
@@ -21,6 +22,7 @@ export default function EinstellungenFormular({
   bundeslaender,
   aktuellesBundesland,
   aktuelleUrlaubstage,
+  aktuellesWochenendeZählt,
 }: EinstellungenFormularProps) {
   const [zustand, aktion, lädt] = useActionState<Zustand, FormData>(
     async (_vorheriger, formData) => {
@@ -82,6 +84,30 @@ export default function EinstellungenFormular({
         <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
           Dein jährlicher Urlaubsanspruch (ohne Übertrag aus dem Vorjahr).
         </p>
+      </div>
+
+      {/* Wochenende-Einstellung */}
+      <div>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <label
+              htmlFor="wochenende_zaehlt"
+              className="text-sm font-medium text-gray-700 dark:text-slate-300"
+            >
+              Wochenende zählt als Urlaubstag
+            </label>
+            <p className="text-xs text-gray-500 dark:text-slate-400 mt-0.5">
+              Aktivieren wenn Samstag/Sonntag in deinem Betrieb Arbeitstage sind
+            </p>
+          </div>
+          <input
+            id="wochenende_zaehlt"
+            type="checkbox"
+            name="wochenende_zaehlt"
+            defaultChecked={aktuellesWochenendeZählt}
+            className="w-4 h-4 rounded border-gray-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-slate-700 shrink-0"
+          />
+        </div>
       </div>
 
       {/* Fehlermeldung */}

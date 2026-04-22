@@ -22,6 +22,7 @@ export type Database = {
           updated_at: string | null
           urlaubstage_pro_jahr: number
           user_id: string
+          wochenende_zaehlt: boolean
         }
         Insert: {
           bundesland?: string
@@ -30,6 +31,7 @@ export type Database = {
           updated_at?: string | null
           urlaubstage_pro_jahr?: number
           user_id: string
+          wochenende_zaehlt?: boolean
         }
         Update: {
           bundesland?: string
@@ -38,6 +40,7 @@ export type Database = {
           updated_at?: string | null
           urlaubstage_pro_jahr?: number
           user_id?: string
+          wochenende_zaehlt?: boolean
         }
         Relationships: []
       }

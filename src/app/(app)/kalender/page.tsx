@@ -33,12 +33,13 @@ export default async function KalenderPage({ searchParams }: KalenderPageProps) 
       .order('von_datum', { ascending: true }),
     supabase
       .from('settings')
-      .select('bundesland')
+      .select('bundesland, wochenende_zaehlt')
       .single(),
   ]);
 
   const eintraege: Urlaubseintrag[] = eintraegeErgebnis.data ?? [];
   const bundesland = einstellungenErgebnis.data?.bundesland ?? 'NW';
+  const wochenendeZählt = einstellungenErgebnis.data?.wochenende_zaehlt ?? false;
 
   // Feiertage serverseitig berechnen und als einfaches Objekt übergeben
   const feiertageListe = getFeiertage(bundesland, anzeigeJahr);
@@ -147,6 +148,7 @@ export default async function KalenderPage({ searchParams }: KalenderPageProps) 
         jahr={anzeigeJahr}
         feiertageMap={feiertageMap}
         eintraege={eintraege}
+        wochenendeZählt={wochenendeZählt}
       />
     </div>
   );

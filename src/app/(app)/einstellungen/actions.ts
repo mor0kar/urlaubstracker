@@ -8,6 +8,8 @@ import { createClient } from '@/lib/supabase/server';
 const EinstellungenSchema = z.object({
   bundesland: z.string().min(2).max(2),
   urlaubstage_pro_jahr: z.coerce.number().int().min(1).max(50),
+  // Checkbox sendet 'on' wenn aktiviert, nichts wenn deaktiviert
+  wochenende_zaehlt: z.boolean().optional().default(false),
 });
 
 /**
@@ -29,9 +31,11 @@ export async function einstellungenSpeichern(
   }
 
   // Eingaben validieren
+  // Checkbox-Wert: 'on' wenn aktiviert, null/fehlend wenn deaktiviert
   const rohdaten = {
     bundesland: formData.get('bundesland'),
     urlaubstage_pro_jahr: formData.get('urlaubstage_pro_jahr'),
+    wochenende_zaehlt: formData.get('wochenende_zaehlt') === 'on',
   };
 
   const ergebnis = EinstellungenSchema.safeParse(rohdaten);
@@ -42,7 +46,7 @@ export async function einstellungenSpeichern(
     };
   }
 
-  const { bundesland, urlaubstage_pro_jahr } = ergebnis.data;
+  const { bundesland, urlaubstage_pro_jahr, wochenende_zaehlt } = ergebnis.data;
 
   // Upsert: anlegen falls noch nicht vorhanden, sonst aktualisieren
   const { error } = await supabase.from('settings').upsert(
@@ -50,6 +54,7 @@ export async function einstellungenSpeichern(
       user_id: user.id,
       bundesland,
       urlaubstage_pro_jahr,
+      wochenende_zaehlt,
       updated_at: new Date().toISOString(),
     },
     { onConflict: 'user_id' },
