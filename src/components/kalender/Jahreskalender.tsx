@@ -1,6 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
+// Lokales Datum als YYYY-MM-DD ohne UTC-Verschiebung
+function lokalDatumStr(datum: Date): string {
+  const j = datum.getFullYear();
+  const m = String(datum.getMonth() + 1).padStart(2, '0');
+  const t = String(datum.getDate()).padStart(2, '0');
+  return `${j}-${m}-${t}`;
+}
 import type { Urlaubseintrag } from '@/types';
 import Monatskalender from './Monatskalender';
 import UrlaubsModal from './UrlaubsModal';
@@ -66,13 +74,9 @@ export default function Jahreskalender({
       {/* 12-Monats-Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {Array.from({ length: 12 }, (_, monat) => {
-          // Einträge für diesen Monat filtern
-          const monatsBeginn = new Date(jahr, monat, 1)
-            .toISOString()
-            .slice(0, 10);
-          const monatsEnde = new Date(jahr, monat + 1, 0)
-            .toISOString()
-            .slice(0, 10);
+          // Einträge für diesen Monat filtern (lokal formatiert, kein UTC-Versatz)
+          const monatsBeginn = lokalDatumStr(new Date(jahr, monat, 1));
+          const monatsEnde = lokalDatumStr(new Date(jahr, monat + 1, 0));
 
           const monatsEintraege = eintraege.filter(
             (e) => e.von_datum <= monatsEnde && e.bis_datum >= monatsBeginn,
@@ -129,7 +133,7 @@ export default function Jahreskalender({
       {/* Urlaub-eintragen-Modal */}
       {modalDatum && (
         <UrlaubsModal
-          vonDatum={modalDatum.toISOString().slice(0, 10)}
+          vonDatum={lokalDatumStr(modalDatum)}
           onSchließen={handleModalSchließen}
           feiertage={feiertageMap}
           wochenendeZählt={wochenendeZählt}
