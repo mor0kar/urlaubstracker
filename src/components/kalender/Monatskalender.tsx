@@ -6,6 +6,13 @@ import KalenderZelle, { type TagTyp } from './KalenderZelle';
 // Wochentage-Kürzel (Mo-So)
 const WOCHENTAGE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
 
+// Heutiges Datum einmalig berechnen (Modulebene, kein Re-compute pro Render)
+function heuteDatumString(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+const HEUTE_STR = heuteDatumString();
+
 // Monatsnamen auf Deutsch
 const MONATSNAMEN = [
   'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
@@ -21,6 +28,9 @@ interface MonatskalenderProps {
   eintraege: Urlaubseintrag[];
   // Wenn true: Wochenenden zählen als Arbeitstage und werden nicht als 'wochenende' markiert
   wochenendeZählt: boolean;
+  // Optionaler Hervorhebungsbereich (z.B. aus Brückentagsvorschlag)
+  hervorgehobenVon?: string;
+  hervorgehobenBis?: string;
   onUrlaubEintragen: (datum: Date) => void;
   onBearbeiten?: (eintrag: Urlaubseintrag) => void;
 }
@@ -80,6 +90,8 @@ export default function Monatskalender({
   feiertageMap,
   eintraege,
   wochenendeZählt,
+  hervorgehobenVon,
+  hervorgehobenBis,
   onUrlaubEintragen,
   onBearbeiten,
 }: MonatskalenderProps) {
@@ -140,6 +152,14 @@ export default function Monatskalender({
             eintraege,
             wochenendeZählt,
           );
+          const datStr = lokalDatumStr(datum);
+          const istHeute = datStr === HEUTE_STR;
+          const istHervorgehoben =
+            hervorgehobenVon !== undefined &&
+            hervorgehobenBis !== undefined &&
+            datStr >= hervorgehobenVon &&
+            datStr <= hervorgehobenBis;
+
           return (
             <KalenderZelle
               key={datum.toISOString()}
@@ -147,6 +167,8 @@ export default function Monatskalender({
               tagTyp={tagTyp}
               feiertagName={feiertagName}
               eintrag={eintrag}
+              istHeute={istHeute}
+              istHervorgehoben={istHervorgehoben}
               onUrlaubEintragen={onUrlaubEintragen}
               onBearbeiten={onBearbeiten}
             />

@@ -37,8 +37,9 @@ export default function VorschlagsKarte({
   effizienz,
   feiertage,
 }: VorschlagsKarteProps) {
-  // Kalender-Link mit vorausgefülltem Datum
-  const kalenderLink = `/kalender?von=${von}&bis=${bis}`;
+  // Kalender-Link mit Hervorhebungsbereich und passendem Jahr
+  const jahr = new Date(von + 'T00:00:00').getFullYear();
+  const kalenderLink = `/kalender?jahr=${jahr}&von=${von}&bis=${bis}`;
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-blue-200 dark:hover:border-blue-700 transition-all p-5">

@@ -6,20 +6,31 @@ import type { Urlaubseintrag } from '@/types';
 
 interface KalenderSuchparameter {
   jahr?: string;
+  von?: string;
+  bis?: string;
 }
 
 interface KalenderPageProps {
   searchParams: Promise<KalenderSuchparameter>;
 }
 
+// Prüft ob ein String ein gültiges YYYY-MM-DD Datum ist
+function istGültigesDatum(s: string | undefined): s is string {
+  return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
+}
+
 export default async function KalenderPage({ searchParams }: KalenderPageProps) {
-  const { jahr: jahrParam } = await searchParams;
+  const { jahr: jahrParam, von: vonParam, bis: bisParam } = await searchParams;
   const aktuellesJahr = new Date().getFullYear();
   const jahr = jahrParam ? parseInt(jahrParam, 10) : aktuellesJahr;
 
   // Sicherheitsprüfung: sinnvoller Jahresbereich
   const anzeigeJahr =
     isNaN(jahr) || jahr < 2020 || jahr > 2035 ? aktuellesJahr : jahr;
+
+  // Hervorhebungsbereich aus Brückentagsvorschlag (optional)
+  const hervorgehobenVon = istGültigesDatum(vonParam) ? vonParam : undefined;
+  const hervorgehobenBis = istGültigesDatum(bisParam) ? bisParam : undefined;
 
   const supabase = await createClient();
 
@@ -149,6 +160,8 @@ export default async function KalenderPage({ searchParams }: KalenderPageProps) 
         feiertageMap={feiertageMap}
         eintraege={eintraege}
         wochenendeZählt={wochenendeZählt}
+        hervorgehobenVon={hervorgehobenVon}
+        hervorgehobenBis={hervorgehobenBis}
       />
     </div>
   );

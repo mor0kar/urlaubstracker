@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Urlaubseintrag } from '@/types';
 import Monatskalender from './Monatskalender';
 import UrlaubsModal from './UrlaubsModal';
@@ -14,6 +14,9 @@ interface JahreskalenderProps {
   eintraege: Urlaubseintrag[];
   // Wenn true: Wochenenden zählen als Arbeitstage (Schicht-/Wochenendbetrieb)
   wochenendeZählt: boolean;
+  // Optionaler Hervorhebungsbereich (aus Brückentagsvorschlag)
+  hervorgehobenVon?: string;
+  hervorgehobenBis?: string;
 }
 
 export default function Jahreskalender({
@@ -21,11 +24,26 @@ export default function Jahreskalender({
   feiertageMap,
   eintraege,
   wochenendeZählt,
+  hervorgehobenVon,
+  hervorgehobenBis,
 }: JahreskalenderProps) {
   // State für Neu-Anlegen-Modal
   const [modalDatum, setModalDatum] = useState<Date | null>(null);
   // State für Bearbeiten-Modal
   const [bearbeitenEintrag, setBearbeitenEintrag] = useState<Urlaubseintrag | null>(null);
+
+  // Zum hervorgehobenen Monat scrollen, sobald die Seite geladen ist
+  useEffect(() => {
+    if (!hervorgehobenVon) return;
+    const monat = new Date(hervorgehobenVon + 'T00:00:00').getMonth();
+    const el = document.getElementById(`kalender-monat-${monat}`);
+    if (el) {
+      // Kurze Verzögerung damit das Layout vollständig gerendert ist
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [hervorgehobenVon]);
 
   const handleUrlaubEintragen = (datum: Date) => {
     setModalDatum(datum);
@@ -63,7 +81,8 @@ export default function Jahreskalender({
           return (
             <div
               key={monat}
-              className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 shadow-sm"
+              id={`kalender-monat-${monat}`}
+              className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4 shadow-sm scroll-mt-4"
             >
               <Monatskalender
                 jahr={jahr}
@@ -71,6 +90,8 @@ export default function Jahreskalender({
                 feiertageMap={feiertageMap}
                 eintraege={monatsEintraege}
                 wochenendeZählt={wochenendeZählt}
+                hervorgehobenVon={hervorgehobenVon}
+                hervorgehobenBis={hervorgehobenBis}
                 onUrlaubEintragen={handleUrlaubEintragen}
                 onBearbeiten={handleBearbeitenÖffnen}
               />
@@ -90,6 +111,18 @@ export default function Jahreskalender({
           <LegendeEintrag farbe="bg-[var(--color-warning-light)]" label="Feiertag" />
           <LegendeEintrag farbe="bg-[var(--color-vacation)]" label="Urlaub" />
           <LegendeEintrag farbe="bg-purple-100 dark:bg-purple-900/40" label="Sonderurlaub" />
+          {/* Heute-Indikator */}
+          <div className="flex items-center gap-2">
+            <span
+              className="inline-flex w-4 h-4 rounded items-center justify-center ring-2 ring-blue-500 dark:ring-blue-400 bg-white dark:bg-slate-800"
+              aria-hidden="true"
+            />
+            <span className="text-xs text-gray-600 dark:text-slate-300">Heute</span>
+          </div>
+          {/* Vorschlag-Indikator — nur wenn aktiv */}
+          {hervorgehobenVon && (
+            <LegendeEintrag farbe="bg-teal-100 dark:bg-teal-700/50" label="Vorschlag" />
+          )}
         </div>
       </div>
 

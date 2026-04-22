@@ -17,6 +17,8 @@ interface KalenderZelleProps {
   tagTyp: TagTyp;
   feiertagName?: string;
   eintrag?: Urlaubseintrag;
+  istHeute?: boolean;
+  istHervorgehoben?: boolean;
   onUrlaubEintragen?: (datum: Date) => void;
   onBearbeiten?: (eintrag: Urlaubseintrag) => void;
 }
@@ -40,6 +42,8 @@ export default function KalenderZelle({
   tagTyp,
   feiertagName,
   eintrag,
+  istHeute = false,
+  istHervorgehoben = false,
   onUrlaubEintragen,
   onBearbeiten,
 }: KalenderZelleProps) {
@@ -54,6 +58,14 @@ export default function KalenderZelle({
 
   const tagNummer = datum.getDate();
   const datumString = datum.toISOString().slice(0, 10);
+
+  // Hervorhebung (Vorschlag) nur bei normal/wochenende anwenden — Urlaub/Feiertag behalten ihre Farbe
+  const hervorgehobenKlasse =
+    istHervorgehoben && (tagTyp === 'normal' || tagTyp === 'wochenende')
+      ? tagTyp === 'wochenende'
+        ? 'bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 cursor-default'
+        : 'bg-teal-100 dark:bg-teal-700/50 text-teal-900 dark:text-teal-100 hover:bg-teal-200 dark:hover:bg-teal-700/70 cursor-pointer'
+      : zellenKlassen[tagTyp];
 
   const handleKlick = () => {
     if (tagTyp === 'feiertag' || tagTyp === 'wochenende') return;
@@ -91,11 +103,20 @@ export default function KalenderZelle({
         className={`
           w-full h-full flex items-center justify-center rounded text-xs font-medium
           transition-colors relative
-          ${zellenKlassen[tagTyp]}
+          ${hervorgehobenKlasse}
+          ${istHeute ? 'ring-2 ring-blue-500 dark:ring-blue-400 ring-inset' : ''}
         `}
         data-datum={datumString}
       >
-        {tagNummer}
+        <span
+          className={
+            istHeute
+              ? 'w-5 h-5 flex items-center justify-center rounded-full bg-blue-600 dark:bg-blue-500 text-white font-bold leading-none'
+              : undefined
+          }
+        >
+          {tagNummer}
+        </span>
         {/* Feiertag-Punkt */}
         {tagTyp === 'feiertag' && (
           <span
