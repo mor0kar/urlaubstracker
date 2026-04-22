@@ -165,14 +165,6 @@ export default function KalenderZelle({
                   Bearbeiten
                 </button>
               )}
-              {/* PDF-Download-Button */}
-              <a
-                href={`/api/urlaubsantrag?id=${eintrag.id}`}
-                download
-                className="flex-1 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors text-center"
-              >
-                PDF
-              </a>
               {/* Löschen-Button */}
               <button
                 type="button"

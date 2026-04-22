@@ -36,3 +36,8 @@ next-env.d.ts
 # supabase
 supabase/.branches
 supabase/.temp
+
+# lokale Dateien / Excel-Vorlagen
+*.xlsx
+*.xls
+.claude/settings.local.json
