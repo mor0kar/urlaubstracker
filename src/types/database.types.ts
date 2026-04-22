@@ -16,27 +16,36 @@ export type Database = {
     Tables: {
       settings: {
         Row: {
+          abteilung: string | null
           bundesland: string
           created_at: string | null
           id: string
+          name_vorname: string | null
+          personalnummer: string | null
           updated_at: string | null
           urlaubstage_pro_jahr: number
           user_id: string
           wochenende_zaehlt: boolean
         }
         Insert: {
+          abteilung?: string | null
           bundesland?: string
           created_at?: string | null
           id?: string
+          name_vorname?: string | null
+          personalnummer?: string | null
           updated_at?: string | null
           urlaubstage_pro_jahr?: number
           user_id: string
           wochenende_zaehlt?: boolean
         }
         Update: {
+          abteilung?: string | null
           bundesland?: string
           created_at?: string | null
           id?: string
+          name_vorname?: string | null
+          personalnummer?: string | null
           updated_at?: string | null
           urlaubstage_pro_jahr?: number
           user_id?: string

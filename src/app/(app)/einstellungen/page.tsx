@@ -55,6 +55,9 @@ export default async function EinstellungenSeite() {
             aktuellesWochenendeZählt={
               aktuelleSettings?.wochenende_zaehlt ?? false
             }
+            aktuellerName={aktuelleSettings?.name_vorname ?? ''}
+            aktuelleAbteilung={aktuelleSettings?.abteilung ?? ''}
+            aktuellePersonalnummer={aktuelleSettings?.personalnummer ?? ''}
           />
         </div>
       </div>

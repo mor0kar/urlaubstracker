@@ -9,6 +9,9 @@ interface EinstellungenFormularProps {
   aktuellesBundesland: BundeslandCode;
   aktuelleUrlaubstage: number;
   aktuellesWochenendeZählt: boolean;
+  aktuellerName: string;
+  aktuelleAbteilung: string;
+  aktuellePersonalnummer: string;
 }
 
 interface Zustand {
@@ -23,6 +26,9 @@ export default function EinstellungenFormular({
   aktuellesBundesland,
   aktuelleUrlaubstage,
   aktuellesWochenendeZählt,
+  aktuellerName,
+  aktuelleAbteilung,
+  aktuellePersonalnummer,
 }: EinstellungenFormularProps) {
   const [zustand, aktion, lädt] = useActionState<Zustand, FormData>(
     async (_vorheriger, formData) => {
@@ -37,6 +43,69 @@ export default function EinstellungenFormular({
 
   return (
     <form action={aktion} className="space-y-6">
+      {/* Name, Vorname */}
+      <div>
+        <label
+          htmlFor="name_vorname"
+          className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5"
+        >
+          Name, Vorname
+        </label>
+        <input
+          id="name_vorname"
+          type="text"
+          name="name_vorname"
+          defaultValue={aktuellerName}
+          placeholder="Muster, Max"
+          className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-slate-100 shadow-sm focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
+        />
+        <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
+          Wird auf dem Urlaubsantrag-PDF gedruckt (Pflichtfeld für PDF-Download).
+        </p>
+      </div>
+
+      {/* Abteilung */}
+      <div>
+        <label
+          htmlFor="abteilung"
+          className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5"
+        >
+          Abteilung
+        </label>
+        <input
+          id="abteilung"
+          type="text"
+          name="abteilung"
+          defaultValue={aktuelleAbteilung}
+          placeholder="z.B. Entwicklung"
+          className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-slate-100 shadow-sm focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
+        />
+        <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
+          Optional — erscheint auf dem Urlaubsantrag-PDF.
+        </p>
+      </div>
+
+      {/* Personalnummer */}
+      <div>
+        <label
+          htmlFor="personalnummer"
+          className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5"
+        >
+          Personalnummer
+        </label>
+        <input
+          id="personalnummer"
+          type="text"
+          name="personalnummer"
+          defaultValue={aktuellePersonalnummer}
+          placeholder="z.B. 12345"
+          className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-slate-100 shadow-sm focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
+        />
+        <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
+          Optional — erscheint auf dem Urlaubsantrag-PDF.
+        </p>
+      </div>
+
       {/* Bundesland */}
       <div>
         <label

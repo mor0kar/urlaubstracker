@@ -10,6 +10,9 @@ const EinstellungenSchema = z.object({
   urlaubstage_pro_jahr: z.coerce.number().int().min(1).max(50),
   // Checkbox sendet 'on' wenn aktiviert, nichts wenn deaktiviert
   wochenende_zaehlt: z.boolean().optional().default(false),
+  name_vorname: z.string().max(200).optional().default(''),
+  abteilung: z.string().max(200).optional().default(''),
+  personalnummer: z.string().max(50).optional().default(''),
 });
 
 /**
@@ -36,6 +39,9 @@ export async function einstellungenSpeichern(
     bundesland: formData.get('bundesland'),
     urlaubstage_pro_jahr: formData.get('urlaubstage_pro_jahr'),
     wochenende_zaehlt: formData.get('wochenende_zaehlt') === 'on',
+    name_vorname: formData.get('name_vorname') ?? '',
+    abteilung: formData.get('abteilung') ?? '',
+    personalnummer: formData.get('personalnummer') ?? '',
   };
 
   const ergebnis = EinstellungenSchema.safeParse(rohdaten);
@@ -46,7 +52,14 @@ export async function einstellungenSpeichern(
     };
   }
 
-  const { bundesland, urlaubstage_pro_jahr, wochenende_zaehlt } = ergebnis.data;
+  const {
+    bundesland,
+    urlaubstage_pro_jahr,
+    wochenende_zaehlt,
+    name_vorname,
+    abteilung,
+    personalnummer,
+  } = ergebnis.data;
 
   // Upsert: anlegen falls noch nicht vorhanden, sonst aktualisieren
   const { error } = await supabase.from('settings').upsert(
@@ -55,6 +68,9 @@ export async function einstellungenSpeichern(
       bundesland,
       urlaubstage_pro_jahr,
       wochenende_zaehlt,
+      name_vorname: name_vorname || null,
+      abteilung: abteilung || null,
+      personalnummer: personalnummer || null,
       updated_at: new Date().toISOString(),
     },
     { onConflict: 'user_id' },
