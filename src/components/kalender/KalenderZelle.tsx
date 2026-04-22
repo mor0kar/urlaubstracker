@@ -25,11 +25,11 @@ const zellenKlassen: Record<TagTyp, string> = {
   normal:
     'bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer',
   wochenende:
-    'bg-[var(--color-weekend)] text-gray-400 dark:text-slate-600',
+    'bg-[var(--color-weekend)] dark:bg-slate-700/60 text-gray-400 dark:text-slate-500 cursor-default',
   feiertag:
-    'bg-[var(--color-warning-light)] text-gray-700 dark:text-yellow-200 cursor-default',
+    'bg-amber-50 dark:bg-amber-800/30 text-gray-700 dark:text-amber-200 cursor-default',
   urlaub:
-    'bg-[var(--color-vacation)] text-blue-900 dark:text-blue-100 cursor-pointer',
+    'bg-blue-200 dark:bg-blue-600 text-blue-900 dark:text-white cursor-pointer',
   sonderurlaub:
     'bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-200 cursor-pointer',
   leer: 'bg-gray-50 dark:bg-slate-900',

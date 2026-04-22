@@ -32,18 +32,18 @@ export default async function VorschlaegeSeite() {
     <div className="max-w-4xl mx-auto">
       {/* Seitentitel */}
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900">
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-slate-100">
           Brückentagsvorschläge
         </h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <p className="text-sm text-gray-500 dark:text-slate-400 mt-0.5">
           Optimale Urlaubsfenster für {AKTUELLES_JAHR} in{' '}
-          <strong className="text-gray-700">{bundesland}</strong>
+          <strong className="text-gray-700 dark:text-slate-300">{bundesland}</strong>
         </p>
       </div>
 
       {/* Erklärungsbanner */}
-      <div className="mb-6 bg-[var(--color-suggestion)] border border-green-200 rounded-xl px-5 py-4">
-        <p className="text-sm text-green-900">
+      <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl px-5 py-4">
+        <p className="text-sm text-green-900 dark:text-green-300">
           <strong>Wie funktioniert das?</strong> Der Algorithmus findet Fenster
           wo du mit möglichst wenigen Urlaubstagen möglichst viele freie Tage
           bekommst — indem du Brückentage zwischen Feiertagen und Wochenenden
@@ -53,13 +53,13 @@ export default async function VorschlaegeSeite() {
 
       {/* Vorschläge */}
       {vorschlaege.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center shadow-sm">
-          <p className="text-gray-500 text-sm">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-8 text-center shadow-sm">
+          <p className="text-gray-500 dark:text-slate-400 text-sm">
             Keine Brückentagsvorschläge für {AKTUELLES_JAHR} gefunden.
           </p>
-          <p className="text-gray-400 text-xs mt-2">
+          <p className="text-gray-400 dark:text-slate-500 text-xs mt-2">
             Überprüfe dein Bundesland in den{' '}
-            <a href="/einstellungen" className="text-blue-600 hover:underline">
+            <a href="/einstellungen" className="text-blue-600 dark:text-blue-400 hover:underline">
               Einstellungen
             </a>
             .
@@ -67,7 +67,7 @@ export default async function VorschlaegeSeite() {
         </div>
       ) : (
         <>
-          <p className="text-xs text-gray-400 mb-4">
+          <p className="text-xs text-gray-400 dark:text-slate-500 mb-4">
             {vorschlaege.length}{' '}
             {vorschlaege.length === 1 ? 'Vorschlag' : 'Vorschläge'} gefunden —
             sortiert nach Kalender-Reihenfolge

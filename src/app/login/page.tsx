@@ -46,20 +46,20 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-sm p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-1">UrlaubsPlaner</h1>
-        <p className="text-sm text-gray-500 mb-6">Melde dich mit deiner E-Mail an</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900">
+      <div className="w-full max-w-sm p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700">
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-slate-100 mb-1">UrlaubsPlaner</h1>
+        <p className="text-sm text-gray-500 dark:text-slate-400 mb-6">Melde dich mit deiner E-Mail an</p>
 
         {/* Modus-Umschalter */}
-        <div className="flex rounded-lg border border-gray-200 p-1 mb-6">
+        <div className="flex rounded-lg border border-gray-200 dark:border-slate-600 dark:bg-slate-700 p-1 mb-6">
           <button
             type="button"
             onClick={() => { setModus('passwort'); setFehler(null); }}
             className={`flex-1 py-1.5 text-sm rounded-md transition-colors ${
               modus === 'passwort'
                 ? 'bg-blue-600 text-white font-medium'
-                : 'text-gray-500 hover:text-gray-700'
+                : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
             }`}
           >
             Passwort
@@ -70,7 +70,7 @@ export default function LoginPage() {
             className={`flex-1 py-1.5 text-sm rounded-md transition-colors ${
               modus === 'magiclink'
                 ? 'bg-blue-600 text-white font-medium'
-                : 'text-gray-500 hover:text-gray-700'
+                : 'text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
             }`}
           >
             Magic Link
@@ -79,16 +79,16 @@ export default function LoginPage() {
 
         {gesendet ? (
           <div className="text-center">
-            <p className="text-gray-700 font-medium">Link gesendet!</p>
-            <p className="text-sm text-gray-500 mt-2">
-              Schau in dein Postfach bei <strong>{email}</strong> und klicke den Link
+            <p className="text-gray-700 dark:text-slate-200 font-medium">Link gesendet!</p>
+            <p className="text-sm text-gray-500 dark:text-slate-400 mt-2">
+              Schau in dein Postfach bei <strong className="text-gray-800 dark:text-slate-200">{email}</strong> und klicke den Link
               auf diesem PC.
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 E-Mail
               </label>
               <input
@@ -98,13 +98,13 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="deine@email.de"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             {modus === 'passwort' && (
               <div>
-                <label htmlFor="passwort" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="passwort" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                   Passwort
                 </label>
                 <input
@@ -114,22 +114,22 @@ export default function LoginPage() {
                   value={passwort}
                   onChange={(e) => setPasswort(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             )}
 
             {fehler && (
-              <p className="text-sm text-red-600">{fehler}</p>
+              <p className="text-sm text-red-600 dark:text-red-400">{fehler}</p>
             )}
 
             <button
               type="submit"
               disabled={laedt}
-              className="w-full py-2 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-sm font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {laedt
-                ? 'Bitte warten...'
+                ? 'Lädt...'
                 : modus === 'passwort'
                   ? 'Einloggen'
                   : 'Magic Link senden'}
