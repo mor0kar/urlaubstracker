@@ -106,26 +106,58 @@ export default function Jahreskalender({
 
       {/* Legende */}
       <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4">
-        <h3 className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide mb-3">
-          Legende
-        </h3>
         <div className="flex flex-wrap gap-x-6 gap-y-2">
-          <LegendeEintrag farbe="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600" label="Arbeitstag" />
-          <LegendeEintrag farbe="bg-[var(--color-weekend)]" label="Wochenende" />
-          <LegendeEintrag farbe="bg-[var(--color-warning-light)]" label="Feiertag" />
-          <LegendeEintrag farbe="bg-[var(--color-vacation)]" label="Urlaub" />
-          <LegendeEintrag farbe="bg-purple-100 dark:bg-purple-900/40" label="Sonderurlaub" />
-          {/* Heute-Indikator */}
+          {/* Urlaub */}
           <div className="flex items-center gap-2">
             <span
-              className="inline-flex w-4 h-4 rounded items-center justify-center ring-2 ring-blue-500 dark:ring-blue-400 bg-white dark:bg-slate-800"
+              className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
+              style={{ backgroundColor: '#4A9EFF' }}
+              aria-hidden="true"
+            />
+            <span className="text-xs text-gray-600 dark:text-slate-300">Urlaub</span>
+          </div>
+          {/* Feiertag */}
+          <div className="flex items-center gap-2">
+            <span
+              className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
+              style={{ backgroundColor: '#F59E0B' }}
+              aria-hidden="true"
+            />
+            <span className="text-xs text-gray-600 dark:text-slate-300">Feiertag</span>
+          </div>
+          {/* Heute */}
+          <div className="flex items-center gap-2">
+            <span
+              className="inline-flex w-4 h-4 rounded items-center justify-center ring-2 ring-blue-500 dark:ring-blue-400 bg-white dark:bg-slate-800 shrink-0"
               aria-hidden="true"
             />
             <span className="text-xs text-gray-600 dark:text-slate-300">Heute</span>
           </div>
+          {/* Wochenende */}
+          <div className="flex items-center gap-2">
+            <span
+              className="inline-block w-2.5 h-2.5 rounded-full shrink-0 bg-gray-300 dark:bg-slate-600"
+              aria-hidden="true"
+            />
+            <span className="text-xs text-gray-600 dark:text-slate-300">Wochenende</span>
+          </div>
+          {/* Sonderurlaub */}
+          <div className="flex items-center gap-2">
+            <span
+              className="inline-block w-2.5 h-2.5 rounded-full shrink-0 bg-purple-400 dark:bg-purple-500"
+              aria-hidden="true"
+            />
+            <span className="text-xs text-gray-600 dark:text-slate-300">Sonderurlaub</span>
+          </div>
           {/* Vorschlag-Indikator — nur wenn aktiv */}
           {hervorgehobenVon && (
-            <LegendeEintrag farbe="bg-teal-100 dark:bg-teal-700/50" label="Vorschlag" />
+            <div className="flex items-center gap-2">
+              <span
+                className="inline-block w-2.5 h-2.5 rounded-full shrink-0 bg-teal-400 dark:bg-teal-500"
+                aria-hidden="true"
+              />
+              <span className="text-xs text-gray-600 dark:text-slate-300">Vorschlag</span>
+            </div>
           )}
         </div>
       </div>
@@ -153,20 +185,3 @@ export default function Jahreskalender({
   );
 }
 
-function LegendeEintrag({
-  farbe,
-  label,
-}: {
-  farbe: string;
-  label: string;
-}) {
-  return (
-    <div className="flex items-center gap-2">
-      <span
-        className={`inline-block w-4 h-4 rounded ${farbe}`}
-        aria-hidden="true"
-      />
-      <span className="text-xs text-gray-600 dark:text-slate-300">{label}</span>
-    </div>
-  );
-}

@@ -109,10 +109,20 @@ export function formatiereDatum(datum: string): string {
 
 /**
  * Formatiert einen Datumsbereich als lesbaren String (z.B. "15.–19. Juli 2026").
+ * Bei gleichem Von- und Bis-Datum: nur ein Datum anzeigen (z.B. "20. April 2026").
  */
 export function formatiereDatumsbereich(von: string, bis: string): string {
-  const vonDatum = new Date(von);
-  const bisDatum = new Date(bis);
+  const vonDatum = new Date(von + 'T00:00:00');
+  const bisDatum = new Date(bis + 'T00:00:00');
+
+  // Gleicher Tag: nur einmal anzeigen
+  if (von === bis) {
+    return vonDatum.toLocaleDateString('de-DE', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+  }
 
   // Gleicher Monat und gleich Jahr: "15.–19. Juli 2026"
   if (

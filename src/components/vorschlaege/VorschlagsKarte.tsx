@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 
 interface VorschlagsKarteProps {
@@ -22,10 +23,26 @@ function formatiereDatumKurz(datumStr: string): string {
   return `${tag}. ${monat}`;
 }
 
-function effizienzFarbe(effizienz: number): string {
-  if (effizienz >= 3) return 'text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/40';
-  if (effizienz >= 2) return 'text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/40';
-  return 'text-gray-700 dark:text-slate-300 bg-gray-100 dark:bg-slate-700';
+function effizienzStyle(effizienz: number): React.CSSProperties {
+  if (effizienz >= 4) {
+    return {
+      background: 'rgba(61,214,140,0.12)',
+      color: '#3DD68C',
+      borderRadius: '20px',
+    };
+  }
+  if (effizienz >= 3) {
+    return {
+      background: 'rgba(74,158,255,0.12)',
+      color: '#7AB8FF',
+      borderRadius: '20px',
+    };
+  }
+  return {
+    background: 'rgba(255,255,255,0.08)',
+    color: '#8A9BB5',
+    borderRadius: '20px',
+  };
 }
 
 export default function VorschlagsKarte({
@@ -46,7 +63,8 @@ export default function VorschlagsKarte({
       {/* Effizienz-Badge */}
       <div className="flex items-start justify-between mb-3">
         <span
-          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${effizienzFarbe(effizienz)}`}
+          className="inline-flex items-center px-2.5 py-1 text-xs font-semibold"
+          style={effizienzStyle(effizienz)}
         >
           {effizienz.toFixed(1)}x Effizienz
         </span>
@@ -76,7 +94,13 @@ export default function VorschlagsKarte({
             {feiertage.map((name) => (
               <span
                 key={name}
-                className="inline-flex items-center px-2 py-0.5 rounded-md bg-yellow-50 dark:bg-amber-900/30 border border-yellow-200 dark:border-amber-700 text-xs text-yellow-800 dark:text-amber-300"
+                className="inline-flex items-center px-2 py-0.5 text-xs"
+                style={{
+                  background: 'rgba(74,158,255,0.1)',
+                  color: '#7AB8FF',
+                  border: '1px solid rgba(74,158,255,0.2)',
+                  borderRadius: '20px',
+                }}
               >
                 {name}
               </span>
@@ -85,11 +109,17 @@ export default function VorschlagsKarte({
         </div>
       )}
 
-      {/* Übernehmen-Button */}
+      {/* Im-Kalender-ansehen-Button */}
       <Link
         href={kalenderLink}
-        className="block w-full text-center rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors"
-        aria-label={`${titel} im Kalender übernehmen`}
+        className="block w-full text-center px-4 py-2 text-sm font-medium transition-colors"
+        style={{
+          background: 'rgba(74,158,255,0.1)',
+          border: '1px solid rgba(74,158,255,0.2)',
+          color: '#4A9EFF',
+          borderRadius: '7px',
+        }}
+        aria-label={`${titel} im Kalender ansehen`}
       >
         Im Kalender ansehen
       </Link>

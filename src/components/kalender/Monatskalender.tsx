@@ -126,15 +126,32 @@ export default function Monatskalender({
 
       {/* Wochentag-Kopfzeile */}
       <div className="grid grid-cols-7 mb-1">
-        {WOCHENTAGE.map((tag) => (
-          <div
-            key={tag}
-            className="text-center text-xs font-medium text-gray-400 dark:text-slate-500 py-1"
-            aria-hidden="true"
-          >
-            {tag}
-          </div>
-        ))}
+        {WOCHENTAGE.map((tag, index) => {
+          // Sa = index 5, So = index 6
+          const istWochenende = index >= 5;
+          return (
+            <div
+              key={tag}
+              className="text-center text-xs font-medium py-1"
+              style={{
+                color: istWochenende
+                  ? 'var(--color-weekend, #f1f3f4)'
+                  : undefined,
+              }}
+              aria-hidden="true"
+            >
+              <span
+                className={
+                  istWochenende
+                    ? 'text-[#2A3A55] dark:text-[#2A3A55]'
+                    : 'text-gray-400 dark:text-slate-500'
+                }
+              >
+                {tag}
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       {/* Tages-Grid */}

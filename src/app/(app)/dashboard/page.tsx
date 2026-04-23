@@ -140,34 +140,48 @@ function UrlaubskontoKarte({ konto, eintraege }: UrlaubskontoKarteProps) {
 
       {/* Fortschrittsbalken */}
       <div
-        className="h-2.5 bg-gray-100 dark:bg-slate-700 rounded-full overflow-hidden mb-4"
+        className="h-1.5 bg-gray-100 dark:bg-slate-700/80 rounded-full overflow-hidden mb-4"
+        style={{ borderRadius: '3px' }}
         role="progressbar"
         aria-valuenow={status.genommeneTage}
         aria-valuemax={status.basisAnspruch}
         aria-label={`${status.genommeneTage} von ${status.basisAnspruch} Urlaubstagen genommen`}
       >
         <div
-          className="h-full bg-green-500 transition-all rounded-full"
-          style={{ width: `${genommenprozent}%` }}
+          className="h-full transition-all"
+          style={{
+            width: `${genommenprozent}%`,
+            backgroundColor: 'var(--color-primary)',
+            borderRadius: '3px',
+          }}
         />
       </div>
 
       {/* Statistiken */}
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-          <p className="text-xs text-gray-500 dark:text-slate-400 mb-0.5">Genommen</p>
+      <div className="grid grid-cols-3 gap-3">
+        <div
+          className="rounded-lg px-3 py-3"
+          style={{ background: 'rgba(255,255,255,0.04)' }}
+        >
+          <p className="text-xs text-gray-500 dark:text-[#8A9BB5] mb-0.5">Genommen</p>
           <p className="text-xl font-semibold text-gray-900 dark:text-slate-100">
             {status.genommeneTage}
           </p>
         </div>
-        <div>
-          <p className="text-xs text-gray-500 dark:text-slate-400 mb-0.5">Verfügbar</p>
-          <p className="text-xl font-semibold text-green-600 dark:text-green-400">
+        <div
+          className="rounded-lg px-3 py-3"
+          style={{ background: 'rgba(255,255,255,0.04)' }}
+        >
+          <p className="text-xs text-gray-500 dark:text-[#8A9BB5] mb-0.5">Verfügbar</p>
+          <p className="text-xl font-semibold" style={{ color: 'var(--color-positive)' }}>
             {status.verbleibendeTage}
           </p>
         </div>
-        <div>
-          <p className="text-xs text-gray-500 dark:text-slate-400 mb-0.5">Übertrag</p>
+        <div
+          className="rounded-lg px-3 py-3"
+          style={{ background: 'rgba(255,255,255,0.04)' }}
+        >
+          <p className="text-xs text-gray-500 dark:text-[#8A9BB5] mb-0.5">Übertrag</p>
           <p className={`text-xl font-semibold ${
             übertragStatWert === '—' || übertragStatWert === '0'
               ? 'text-gray-300 dark:text-slate-600'
@@ -217,21 +231,40 @@ function LetzteEintraege({ eintraege }: LetzteEintraegeProps) {
         </Link>
       </div>
 
-      <ul className="divide-y divide-gray-100 dark:divide-slate-700">
-        {eintraege.map((eintrag) => (
-          <li key={eintrag.id} className="py-3 flex items-center justify-between gap-4">
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-gray-900 dark:text-slate-100 truncate">
-                {formatiereDatumsbereich(eintrag.von_datum, eintrag.bis_datum)}
-              </p>
-              <p className="text-xs text-gray-500 dark:text-slate-400 mt-0.5">
-                {eintrag.arbeitstage}{' '}
-                {eintrag.arbeitstage === 1 ? 'Arbeitstag' : eintrag.arbeitstage === 0.5 ? 'halber Arbeitstag' : 'Arbeitstage'}
-                {eintrag.kommentar && ` · ${eintrag.kommentar}`}
-              </p>
-            </div>
-          </li>
-        ))}
+      <ul className="divide-y divide-gray-100 dark:divide-slate-700/60">
+        {eintraege.map((eintrag) => {
+          const statusPunktFarbe =
+            eintrag.status === 'genehmigt'
+              ? '#3DD68C'
+              : eintrag.status === 'beantragt'
+                ? '#F59E0B'
+                : '#4A9EFF'; // geplant / Standard
+
+          return (
+            <li key={eintrag.id} className="py-3 flex items-center gap-3">
+              {/* Statuspunkt */}
+              <span
+                className="shrink-0 rounded-full"
+                style={{
+                  width: '7px',
+                  height: '7px',
+                  backgroundColor: statusPunktFarbe,
+                }}
+                aria-hidden="true"
+              />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-gray-900 dark:text-slate-100 truncate">
+                  {formatiereDatumsbereich(eintrag.von_datum, eintrag.bis_datum)}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-slate-400 mt-0.5">
+                  {eintrag.arbeitstage}{' '}
+                  {eintrag.arbeitstage === 1 ? 'Arbeitstag' : eintrag.arbeitstage === 0.5 ? 'halber Arbeitstag' : 'Arbeitstage'}
+                  {eintrag.kommentar && ` · ${eintrag.kommentar}`}
+                </p>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

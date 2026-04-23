@@ -40,12 +40,31 @@ export default function DatumAnzeige() {
 
   return (
     <div className="px-3 py-3 mb-2">
-      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl px-3 py-2.5 border border-blue-100 dark:border-blue-800">
-        <p className="text-xs text-blue-500 dark:text-blue-400 font-medium">{wochentag}</p>
-        <p className="text-lg font-bold text-blue-700 dark:text-blue-300 leading-tight">
-          {tag}. {monat}
+      <div className="px-3 py-2.5">
+        <p
+          className="font-medium uppercase"
+          style={{
+            fontSize: '10px',
+            color: 'var(--color-primary)',
+            letterSpacing: '0.06em',
+          }}
+        >
+          {wochentag}
         </p>
-        <p className="text-xs text-blue-400 dark:text-blue-500">{jahr}</p>
+        <p
+          className="font-bold leading-tight"
+          style={{ fontSize: '22px' }}
+        >
+          {tag}.
+        </p>
+        <p
+          style={{
+            fontSize: '11px',
+            color: '#8A9BB5',
+          }}
+        >
+          {monat} {jahr}
+        </p>
       </div>
     </div>
   );

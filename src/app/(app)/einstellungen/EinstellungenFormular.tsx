@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
+import React, { useActionState, useState } from 'react';
 import { einstellungenSpeichern } from './actions';
 import type { BundeslandCode } from '@/types';
 
@@ -32,8 +32,17 @@ export default function EinstellungenFormular({
     },
     initialZustand,
   );
+  const [wochenendeAktiv, setWochenendeAktiv] = useState(aktuellesWochenendeZählt);
 
   const gespeichert = !lädt && zustand.gespeichert === true;
+
+  const inputKlasse =
+    'w-full rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-slate-100 transition-shadow focus:outline-none';
+  const inputStyle = {
+    background: '#0F1623',
+    border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: '8px',
+  } as React.CSSProperties;
 
   return (
     <form action={aktion} className="space-y-6">
@@ -49,7 +58,14 @@ export default function EinstellungenFormular({
           id="bundesland"
           name="bundesland"
           defaultValue={aktuellesBundesland}
-          className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-slate-100 shadow-sm focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
+          className={`${inputKlasse} bg-white dark:text-slate-100 border border-gray-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400`}
+          style={{ ...inputStyle }}
+          onFocus={(e) => {
+            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(74,158,255,0.2)';
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         >
           {(
             Object.entries(bundeslaender) as [BundeslandCode, string][]
@@ -79,20 +95,33 @@ export default function EinstellungenFormular({
           defaultValue={aktuelleUrlaubstage}
           min={1}
           max={50}
-          className="w-full rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-gray-900 dark:text-slate-100 shadow-sm focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400"
+          className={`${inputKlasse} bg-white dark:text-slate-100 border border-gray-300 dark:border-slate-600 dark:bg-slate-700`}
+          style={{ ...inputStyle }}
+          onFocus={(e) => {
+            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(74,158,255,0.2)';
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         />
         <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
           Dein jährlicher Urlaubsanspruch (ohne Übertrag aus dem Vorjahr).
         </p>
       </div>
 
-      {/* Wochenende-Einstellung */}
+      {/* Wochenende-Einstellung als Toggle */}
       <div>
+        {/* Verstecktes Checkbox-Feld für die Form Action */}
+        <input
+          type="hidden"
+          name="wochenende_zaehlt"
+          value={wochenendeAktiv ? 'on' : 'off'}
+        />
         <div className="flex items-center justify-between gap-4">
           <div>
             <label
-              htmlFor="wochenende_zaehlt"
-              className="text-sm font-medium text-gray-700 dark:text-slate-300"
+              htmlFor="wochenende_toggle"
+              className="text-sm font-medium text-gray-700 dark:text-slate-300 cursor-pointer"
             >
               Wochenende zählt als Urlaubstag
             </label>
@@ -100,13 +129,35 @@ export default function EinstellungenFormular({
               Aktivieren wenn Samstag/Sonntag in deinem Betrieb Arbeitstage sind
             </p>
           </div>
-          <input
-            id="wochenende_zaehlt"
-            type="checkbox"
-            name="wochenende_zaehlt"
-            defaultChecked={aktuellesWochenendeZählt}
-            className="w-4 h-4 rounded border-gray-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-400 dark:bg-slate-700 shrink-0"
-          />
+          {/* Toggle-Schalter */}
+          <button
+            id="wochenende_toggle"
+            type="button"
+            role="switch"
+            aria-checked={wochenendeAktiv}
+            onClick={() => setWochenendeAktiv((v) => !v)}
+            className="shrink-0 relative inline-flex items-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            style={{
+              width: '36px',
+              height: '20px',
+              borderRadius: '10px',
+              background: wochenendeAktiv
+                ? 'var(--color-primary, #4A9EFF)'
+                : 'rgba(255,255,255,0.1)',
+              transition: 'background 0.2s',
+            }}
+          >
+            <span
+              className="absolute bg-white rounded-full shadow transition-transform"
+              style={{
+                width: '14px',
+                height: '14px',
+                top: '3px',
+                left: wochenendeAktiv ? '19px' : '3px',
+                transition: 'left 0.2s',
+              }}
+            />
+          </button>
         </div>
       </div>
 

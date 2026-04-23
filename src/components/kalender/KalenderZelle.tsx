@@ -29,7 +29,7 @@ const zellenKlassen: Record<TagTyp, string> = {
   wochenende:
     'bg-[var(--color-weekend)] dark:bg-slate-700/60 text-gray-400 dark:text-slate-500 cursor-default',
   feiertag:
-    'bg-amber-50 dark:bg-amber-800/30 text-gray-700 dark:text-amber-200 cursor-default',
+    'cursor-default',
   urlaub:
     'bg-blue-200 dark:bg-blue-600 text-blue-900 dark:text-white cursor-pointer',
   sonderurlaub:
@@ -106,6 +106,14 @@ export default function KalenderZelle({
           ${hervorgehobenKlasse}
           ${istHeute ? 'ring-2 ring-blue-500 dark:ring-blue-400 ring-inset' : ''}
         `}
+        style={
+          tagTyp === 'feiertag'
+            ? {
+                background: 'rgba(245,158,11,0.15)',
+                color: '#F59E0B',
+              }
+            : undefined
+        }
         data-datum={datumString}
       >
         <span

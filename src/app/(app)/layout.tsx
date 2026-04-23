@@ -22,9 +22,9 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-slate-900">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-[var(--color-app-bg)]">
       {/* Desktop-Seitenleiste */}
-      <aside className="hidden md:flex flex-col w-56 min-h-screen bg-white dark:bg-slate-800 border-r border-gray-200 dark:border-slate-700 shrink-0">
+      <aside className="hidden md:flex flex-col w-56 min-h-screen bg-white dark:bg-[var(--color-sidebar)] border-r border-gray-200 dark:border-slate-700/50 shrink-0">
         {/* App-Name und User-E-Mail */}
         <div className="px-6 py-5 border-b border-gray-100 dark:border-slate-700">
           <span className="text-base font-semibold text-gray-900 dark:text-slate-100">
