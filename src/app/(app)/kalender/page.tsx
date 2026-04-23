@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { getFeiertage } from '@/lib/feiertage';
 import Jahreskalender from '@/components/kalender/Jahreskalender';
+import EintraegeTabelle from '@/components/kalender/EintraegeTabelle';
 import type { Urlaubseintrag } from '@/types';
 
 interface KalenderSuchparameter {
@@ -162,6 +163,14 @@ export default async function KalenderPage({ searchParams }: KalenderPageProps) 
         wochenendeZählt={wochenendeZählt}
         hervorgehobenVon={hervorgehobenVon}
         hervorgehobenBis={hervorgehobenBis}
+      />
+
+      {/* Einträgsverwaltung — alle Einträge des Jahres als Tabelle */}
+      <EintraegeTabelle
+        eintraege={eintraege}
+        feiertage={feiertageMap}
+        wochenendeZählt={wochenendeZählt}
+        jahr={anzeigeJahr}
       />
     </div>
   );
