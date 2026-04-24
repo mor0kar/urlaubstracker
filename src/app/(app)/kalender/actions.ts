@@ -114,6 +114,7 @@ export async function urlaubAnlegen(
 
   revalidatePath('/kalender');
   revalidatePath('/dashboard');
+  revalidatePath('/eintraege');
 
   return {};
 }
@@ -152,6 +153,7 @@ export async function urlaubLöschen(
 
   revalidatePath('/kalender');
   revalidatePath('/dashboard');
+  revalidatePath('/eintraege');
 
   return {};
 }
@@ -269,6 +271,7 @@ export async function urlaubBearbeiten(
 
   revalidatePath('/kalender');
   revalidatePath('/dashboard');
+  revalidatePath('/eintraege');
 
   return {};
 }

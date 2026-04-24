@@ -159,28 +159,19 @@ function UrlaubskontoKarte({ konto, eintraege }: UrlaubskontoKarteProps) {
 
       {/* Statistiken */}
       <div className="grid grid-cols-3 gap-3">
-        <div
-          className="rounded-lg px-3 py-3"
-          style={{ background: 'rgba(255,255,255,0.04)' }}
-        >
+        <div className="rounded-lg px-3 py-3 bg-gray-50 dark:bg-slate-700/40">
           <p className="text-xs text-gray-500 dark:text-[#8A9BB5] mb-0.5">Genommen</p>
           <p className="text-xl font-semibold text-gray-900 dark:text-slate-100">
             {status.genommeneTage}
           </p>
         </div>
-        <div
-          className="rounded-lg px-3 py-3"
-          style={{ background: 'rgba(255,255,255,0.04)' }}
-        >
+        <div className="rounded-lg px-3 py-3 bg-gray-50 dark:bg-slate-700/40">
           <p className="text-xs text-gray-500 dark:text-[#8A9BB5] mb-0.5">Verfügbar</p>
           <p className="text-xl font-semibold" style={{ color: 'var(--color-success)' }}>
             {status.verbleibendeTage}
           </p>
         </div>
-        <div
-          className="rounded-lg px-3 py-3"
-          style={{ background: 'rgba(255,255,255,0.04)' }}
-        >
+        <div className="rounded-lg px-3 py-3 bg-gray-50 dark:bg-slate-700/40">
           <p className="text-xs text-gray-500 dark:text-[#8A9BB5] mb-0.5">Übertrag</p>
           <p className={`text-xl font-semibold ${
             übertragStatWert === '—' || übertragStatWert === '0'
@@ -224,7 +215,7 @@ function LetzteEintraege({ eintraege }: LetzteEintraegeProps) {
           Letzte Einträge
         </h2>
         <Link
-          href="/kalender"
+          href="/eintraege"
           className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
         >
           Alle ansehen
