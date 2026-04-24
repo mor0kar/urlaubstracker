@@ -173,7 +173,7 @@ function UrlaubskontoKarte({ konto, eintraege }: UrlaubskontoKarteProps) {
           style={{ background: 'rgba(255,255,255,0.04)' }}
         >
           <p className="text-xs text-gray-500 dark:text-[#8A9BB5] mb-0.5">Verfügbar</p>
-          <p className="text-xl font-semibold" style={{ color: 'var(--color-positive)' }}>
+          <p className="text-xl font-semibold" style={{ color: 'var(--color-success)' }}>
             {status.verbleibendeTage}
           </p>
         </div>

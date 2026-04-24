@@ -129,6 +129,40 @@ export default async function KalenderPage({ searchParams }: KalenderPageProps) 
         </div>
       </div>
 
+      {/* Kalender-Legende */}
+      <div className="flex items-start gap-6 mb-5">
+        <div className="flex flex-col items-center gap-1">
+          <span
+            className="w-2.5 h-2.5 rounded-full shrink-0"
+            style={{ backgroundColor: 'var(--color-primary)' }}
+            aria-hidden="true"
+          />
+          <span className="text-gray-500 dark:text-slate-400" style={{ fontSize: '10px' }}>Urlaub</span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <span
+            className="w-2.5 h-2.5 rounded-full shrink-0"
+            style={{ backgroundColor: 'var(--color-warning)' }}
+            aria-hidden="true"
+          />
+          <span className="text-gray-500 dark:text-slate-400" style={{ fontSize: '10px' }}>Feiertag</span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <span
+            className="w-4 h-4 rounded ring-2 ring-blue-500 dark:ring-blue-400 bg-white dark:bg-slate-800 shrink-0"
+            aria-hidden="true"
+          />
+          <span className="text-gray-500 dark:text-slate-400" style={{ fontSize: '10px' }}>Heute</span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <span
+            className="w-2.5 h-2.5 rounded-full shrink-0 bg-gray-300 dark:bg-slate-600"
+            aria-hidden="true"
+          />
+          <span className="text-gray-500 dark:text-slate-400" style={{ fontSize: '10px' }}>Wochenende</span>
+        </div>
+      </div>
+
       {/* Bundesland-Hinweis */}
       <div className="mb-5 flex items-center gap-2 text-sm text-gray-500 dark:text-slate-400">
         <svg

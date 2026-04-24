@@ -27,7 +27,7 @@ const zellenKlassen: Record<TagTyp, string> = {
   normal:
     'bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer',
   wochenende:
-    'bg-[var(--color-weekend)] dark:bg-slate-700/60 text-gray-400 dark:text-slate-500 cursor-default',
+    'bg-gray-100 dark:bg-slate-700/60 text-gray-400 dark:text-slate-500 cursor-default',
   feiertag:
     'cursor-default',
   urlaub:

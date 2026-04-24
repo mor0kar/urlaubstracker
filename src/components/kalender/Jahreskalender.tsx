@@ -104,64 +104,6 @@ export default function Jahreskalender({
         })}
       </div>
 
-      {/* Legende */}
-      <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4">
-        <div className="flex flex-wrap gap-x-6 gap-y-2">
-          {/* Urlaub */}
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: '#4A9EFF' }}
-              aria-hidden="true"
-            />
-            <span className="text-xs text-gray-600 dark:text-slate-300">Urlaub</span>
-          </div>
-          {/* Feiertag */}
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: '#F59E0B' }}
-              aria-hidden="true"
-            />
-            <span className="text-xs text-gray-600 dark:text-slate-300">Feiertag</span>
-          </div>
-          {/* Heute */}
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-flex w-4 h-4 rounded items-center justify-center ring-2 ring-blue-500 dark:ring-blue-400 bg-white dark:bg-slate-800 shrink-0"
-              aria-hidden="true"
-            />
-            <span className="text-xs text-gray-600 dark:text-slate-300">Heute</span>
-          </div>
-          {/* Wochenende */}
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-block w-2.5 h-2.5 rounded-full shrink-0 bg-gray-300 dark:bg-slate-600"
-              aria-hidden="true"
-            />
-            <span className="text-xs text-gray-600 dark:text-slate-300">Wochenende</span>
-          </div>
-          {/* Sonderurlaub */}
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-block w-2.5 h-2.5 rounded-full shrink-0 bg-purple-400 dark:bg-purple-500"
-              aria-hidden="true"
-            />
-            <span className="text-xs text-gray-600 dark:text-slate-300">Sonderurlaub</span>
-          </div>
-          {/* Vorschlag-Indikator — nur wenn aktiv */}
-          {hervorgehobenVon && (
-            <div className="flex items-center gap-2">
-              <span
-                className="inline-block w-2.5 h-2.5 rounded-full shrink-0 bg-teal-400 dark:bg-teal-500"
-                aria-hidden="true"
-              />
-              <span className="text-xs text-gray-600 dark:text-slate-300">Vorschlag</span>
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Urlaub-eintragen-Modal */}
       {modalDatum && (
         <UrlaubsModal

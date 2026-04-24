@@ -133,11 +133,6 @@ export default function Monatskalender({
             <div
               key={tag}
               className="text-center text-xs font-medium py-1"
-              style={{
-                color: istWochenende
-                  ? 'var(--color-weekend, #f1f3f4)'
-                  : undefined,
-              }}
               aria-hidden="true"
             >
               <span
