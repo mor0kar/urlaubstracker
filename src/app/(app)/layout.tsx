@@ -25,12 +25,25 @@ export default async function AppLayout({
     <div className="min-h-screen flex bg-gray-50 dark:bg-[var(--color-bg-app)]">
       {/* Desktop-Seitenleiste */}
       <aside className="hidden md:flex flex-col w-56 min-h-screen bg-white dark:bg-[var(--color-bg-sidebar)] border-r border-gray-200 dark:border-slate-700/50 shrink-0">
-        {/* App-Name und User-E-Mail */}
-        <div className="px-6 py-5 border-b border-gray-100 dark:border-slate-700">
-          <span className="text-base font-semibold text-gray-900 dark:text-slate-100">
-            UrlaubsPlaner
-          </span>
-          <p className="text-xs text-gray-400 dark:text-slate-500 mt-0.5 truncate">{user.email}</p>
+        {/* App-Brand mit Gradient-Logo-Mark */}
+        <div className="px-4 py-5 border-b border-gray-100 dark:border-slate-700/50">
+          <div className="flex items-center gap-3">
+            <div
+              className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-sm"
+              style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, #38bdf8 100%)' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-gray-900 dark:text-slate-100 leading-tight">UrlaubsPlaner</p>
+              <p className="text-xs text-gray-400 dark:text-slate-500 truncate leading-tight mt-0.5">{user.email}</p>
+            </div>
+          </div>
         </div>
 
         {/* Navigationslinks */}

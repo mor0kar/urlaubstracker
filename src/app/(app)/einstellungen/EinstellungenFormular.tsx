@@ -36,13 +36,7 @@ export default function EinstellungenFormular({
 
   const gespeichert = !lädt && zustand.gespeichert === true;
 
-  const inputKlasse =
-    'w-full rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-slate-100 transition-shadow focus:outline-none';
-  const inputStyle = {
-    background: '#0F1623',
-    border: '1px solid rgba(255,255,255,0.1)',
-    borderRadius: '8px',
-  } as React.CSSProperties;
+  // inputStyle entfernt — Tailwind-Klassen übernehmen Light- und Dark-Mode
 
   return (
     <form action={aktion} className="space-y-6">
@@ -58,14 +52,7 @@ export default function EinstellungenFormular({
           id="bundesland"
           name="bundesland"
           defaultValue={aktuellesBundesland}
-          className={`${inputKlasse} bg-white dark:text-slate-100 border border-gray-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400`}
-          style={{ ...inputStyle }}
-          onFocus={(e) => {
-            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(74,158,255,0.2)';
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.boxShadow = 'none';
-          }}
+          className="w-full rounded-lg border border-gray-300 dark:border-slate-600 px-3 py-2 text-sm text-gray-900 dark:text-slate-100 bg-white dark:bg-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400 transition-shadow"
         >
           {(
             Object.entries(bundeslaender) as [BundeslandCode, string][]
@@ -95,14 +82,7 @@ export default function EinstellungenFormular({
           defaultValue={aktuelleUrlaubstage}
           min={1}
           max={50}
-          className={`${inputKlasse} bg-white dark:text-slate-100 border border-gray-300 dark:border-slate-600 dark:bg-slate-700`}
-          style={{ ...inputStyle }}
-          onFocus={(e) => {
-            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(74,158,255,0.2)';
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.boxShadow = 'none';
-          }}
+          className="w-full rounded-lg border border-gray-300 dark:border-slate-600 px-3 py-2 text-sm text-gray-900 dark:text-slate-100 bg-white dark:bg-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400 transition-shadow"
         />
         <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
           Dein jährlicher Urlaubsanspruch (ohne Übertrag aus dem Vorjahr).
@@ -142,8 +122,8 @@ export default function EinstellungenFormular({
               height: '20px',
               borderRadius: '10px',
               background: wochenendeAktiv
-                ? 'var(--color-primary, #4A9EFF)'
-                : 'rgba(255,255,255,0.1)',
+                ? 'var(--color-primary)'
+                : '#d1d5db',
               transition: 'background 0.2s',
             }}
           >

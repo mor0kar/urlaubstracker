@@ -135,19 +135,26 @@ export function NavLinks() {
       {navLinks.map(({ href, label, icon }) => {
         const aktiv = pfad === href || pfad.startsWith(href + '/');
         return (
-          <Link
-            key={href}
-            href={href}
-            aria-current={aktiv ? 'page' : undefined}
-            className={`flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors ${
-              aktiv
-                ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium'
-                : 'text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700'
-            }`}
-          >
-            {icon}
-            {label}
-          </Link>
+          <div key={href} className="relative rounded-lg overflow-hidden">
+            {aktiv && (
+              <span
+                className="absolute inset-y-1 left-0 w-[3px] rounded-r-full bg-blue-600 dark:bg-blue-400"
+                aria-hidden="true"
+              />
+            )}
+            <Link
+              href={href}
+              aria-current={aktiv ? 'page' : undefined}
+              className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all ${
+                aktiv
+                  ? 'bg-blue-50 dark:bg-blue-900/25 text-blue-700 dark:text-blue-300 font-semibold'
+                  : 'text-gray-500 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-700/60 hover:text-gray-900 dark:hover:text-slate-100'
+              }`}
+            >
+              {icon}
+              {label}
+            </Link>
+          </div>
         );
       })}
     </nav>
